@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+if [[ "$1" =  @(screen|active|output|area) ]]; then
+    SC_PATH=~/.screenshots/`date +"%Y-%m-%d-%H%M%S.png"`
+    grimblast copysave $1 $SC_PATH
+    notify-send -h string:image-path:$SC_PATH "Copied to clipboard" $SC_PATH
+else
+    echo "Usage: screenshot <screen|active|output|area>"
+    exit 1
+fi

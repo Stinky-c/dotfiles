@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+WG_NAME=${WG_NAME:"laptop"}
+ifaceExists=`ip link list | grep -E '^[[:digit:]]: laptop:' | wc -l`
+if [ "$ifaceExists" = 1 ]; then
+    echo "WireGuard is up"
+else
+    echo "WireGuard is down"
+fi

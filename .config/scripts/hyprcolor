@@ -1,0 +1,31 @@
+#! /usr/bin/env bash
+# if [[ -z "$ROFI_RETV" ]]; then
+#     rofi -show script -modes "script:$0" &
+#     exit 0
+# fi
+
+# If ROFI_INFO is not defined, and @ is then lets define it
+if [[ -z "$ROFI_INFO" && -n "$@" ]]; then
+    ROFI_INFO="$@"
+fi
+
+# Exit early if needed
+if [ x"$ROFI_INFO" == x"exit" ]; then
+    exit 0
+fi
+
+if [[ "$ROFI_INFO" == @(cmyk|hex|rgb|hsl|hsv) ]]; then
+
+    COLOR=$(hyprpicker --format="$ROFI_INFO" -a)
+
+    notify-send 'Color picked!' "'$COLOR'"
+else
+    echo 'exit'
+    echo 'cmyk'
+    echo 'hex'
+    echo 'rgb'
+    echo 'hsl'
+    echo 'hsv'
+
+fi
+exit 0

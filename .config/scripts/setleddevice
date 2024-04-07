@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+LED_DEVICE=${LED_DEVICE:-platform::micmute}
+
+if [[ "$1" == @(t|toggle) ]]; then # Set to min/nax
+    CURRENT=$(brightnessctl --device=$LED_DEVICE -mq get)
+
+    if [ "$1" == 1 ] || [ $CURRENT -lt $(brightnessctl --device=$LED_DEVICE -mq max) ]; then
+        brightnessctl --device=$LED_DEVICE -q set 100%
+    else
+        brightnessctl --device=$LED_DEVICE -q set 0%
+    fi
+
+elif [[ "$1" == @(g|get) ]]; then # get value
+    brightnessctl --device=$LED_DEVICE get
+
+elif [[ "$1" = @(s|set) ]]; then # set value
+    brightnessctl --device=$LED_DEVICE set $2
+
+elif [[ "$1" == @(e|enumerate|l|list) ]]; then # List devices
+    brightnessctl -l
+
+else
+    echo "Usage: '[LED_DEVICE=] $0 <Option>'"
+    echo ""
+    echo "Toggle device brightness:"
+    echo "    t | toggle"
+    echo "Get device brightness:"
+    echo "    g | get"
+    echo "Set device brightness:"
+    echo "    s <value> | set <value>"
+    echo "List devices:"
+    echo "    e | enumerate | l | list"
+fi

@@ -1,0 +1,197 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    "modules-right": [
+        "tray",
+        "battery",
+        "idle_inhibitor",
+        "backlight",
+        "cpu",
+        // "memory",
+        "network",
+        "custom/wireguard",
+        "bluetooth",
+        // "keyboard-state",
+        // "custom/updates",
+        "pulseaudio",
+        "custom/weather",
+        "clock"
+    ],
+    "hyprland/window": {
+        "format": "{class} : {title}"
+    },
+    "hyprland/workspaces": {
+        "show-special": true,
+        "disable-scroll": true,
+        "all-outputs": true,
+        "active-only": false,
+        "format": "{icon}{name}{windows}",
+        "format-icons": {
+            "default": "",
+            "special": " "
+        },
+        "window-rewrite-default": "",
+        "window-rewrite": {
+            "class<vesktop>": " ",
+            "class<discord>": " ",
+            "class<firefox>": " ",
+            "class<code>": " ",
+            "class<code-url-handler>": " ",
+            "class<kitty>": " ",
+            "class<.*prismlauncher.*>": " ",
+            "class<firefox> title<.*youtube.*>": " ",
+            "class<kitty> title<cava>": " ",
+            "class<steam>": " ",
+            "class<.*Minecraft.*>": " "
+        },
+        "persistent-workspaces": {
+            "*": 10
+        }
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+        // "timeout": 120,
+        "on-click": "LED_DEVICE='platform::micmute' $HOME/.config/scripts/setleddevice t"
+    },
+    "tray": {
+        //"icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%R}",
+        // "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "interval": 2,
+        "tooltip": true
+    },
+    "memory": {
+        "format": "{}% ",
+        "interval": 2
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
+        "critical-threshold": 90,
+        "format-critical": "{temperatureC}°C {icon}",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ],
+        "interval": 2
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "scroll-step": 5,
+        "format": "{percent}% {icon}",
+        "format-icons": [
+            "",
+            ""
+        ]
+    },
+    "battery": {
+        "states": {
+            // "good": 80,
+            "warning": 30,
+            "critical": 15
+        },
+        "adapter": "/sys/class/power_supply/BAT0",
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "DIGI (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "on-click": "nm-connection-editor",
+        "on-click-right": "$HOME/.config/scripts/wifitoggle"
+    },
+    "bluetooth": {
+        "format": "{status} ",
+        "on-click": "blueberry",
+        "on-click-right": "$HOME/.config/scripts/bttoggle"
+    },
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "scrolllock": true,
+        "format": {
+            "numlock": "N {icon}",
+            "capslock": "C {icon}",
+            "scrolllock": "S {icon}"
+        },
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-muted": "{volume}% ",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                ""
+            ]
+        },
+        "on-click": "pavucontrol",
+        "ignored-sinks": [
+            "Easy Effects Sink"
+        ]
+    },
+    "custom/updates": {
+        "format": "{}  ",
+        "interval": 3600,
+        "exec": "checkupdates | wc -l",
+        "exec-if": "exit 0",
+        // "on-click": "kitty 'sudo yay'; pkill -SIGRTMIN+8 waybar", // update system
+        "signal": 8
+    },
+    "custom/weather": {
+        "format": "{} °",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar --fahrenheit --date-format '%m/%d' --ampm",
+        "return-type": "json"
+    },
+    "custom/wireguard": {
+        "format": "{}<big> </big>",
+        "exec": "$HOME/.config/rofi/wireguard.sh short",
+        "on-click": "rofi -modi 'WireGuard:$HOME/.config/rofi/wireguard-rofi.sh' -show WireGuard ; pkill -SIGRTMIN+6 waybar",
+        "signal": 6,
+        "interval": 30,
+        "return-type": "json"
+    }
+}

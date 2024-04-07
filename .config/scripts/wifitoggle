@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+x=$(nmcli n connectivity)
+if [ "$x" = "none" ]; then
+    nmcli n on
+else
+    nmcli n off
+fi

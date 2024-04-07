@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+if [ x"$ROFI_INFO" == x"exit" ]; then
+    exit 0
+fi
+
+# If ROFI_INFO is not defined, and @ is then lets define it
+if [[ -z "$ROFI_INFO" && -n "$@" ]]; then
+    ROFI_INFO="$@"
+fi
+
+if [[ -f $(realpath "$ROFI_INFO") ]]; then
+    IMG_PATH=$(realpath "$ROFI_INFO")
+    DISPLAY_ID=$(wlr-randr --json | jq -r .[0].name) # TODO: support all displays
+
+    swww clear-cache
+    swww img "$IMG_PATH" --resize=fit -t=random
+    # hyprctl hyprpaper unload all >>/dev/null
+    # hyprctl hyprpaper preload "$IMG_PATH" >>/dev/null
+    # hyprctl hyprpaper wallpaper "${DISPLAY_ID},contain:$IMG_PATH" >>/dev/null
+    exit 0
+else
+    echo -ne "Exit\0icon\x1fapplication-exit-symbolic\x1finfo\x1fexit\n"
+    # TODO: figure out how to display a short path
+    # supports all swww file formats - https://github.com/LGFae/swww
+    find -L $HOME/.wallpapers/* -regextype posix-extended -regex '.*\.(jpeg|jpg|png|gif|pnm|tga|tiff|webp|bmp|farbfeld)' -print0 | xargs -0 -I{} echo -en "{}\0info\x1f{}\x1ficon\x1fimage-x-generic\n"
+    # find $HOME/.wallpapers/* -name '*.png' -print0 | xargs -0 -I{} echo -en "$(realpath -qz --relative-base=$HOME {})\0info\x1f{}\x1ficon\x1fimage-x-generic\n"
+fi
