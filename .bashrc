@@ -64,7 +64,5 @@ export SCRIPTS_DIR=$HOME/.config/scripts
 
 # Dev tools
 export EDITOR=vim
-## Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# mise
+eval "$(/usr/bin/mise activate bash)"

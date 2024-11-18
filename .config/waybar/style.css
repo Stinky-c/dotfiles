@@ -28,8 +28,9 @@ window#waybar.hidden {
   opacity: 0.2;
 }
 
-tooltip {
+tooltip, #tray menu {
   background: alpha(@surface1, 0.7);
+  margin: 2px 2px;
   border: 1px solid rgba(100, 114, 125, 0.5);
 }
 
@@ -74,7 +75,7 @@ tooltip {
 #cava,
 #custom-updates,
 #idle_inhibitor,
-#mpd,
+#mpris,
 #pulseaudio {
   padding: 0 10px;
   margin: 6px 4px;

@@ -1,7 +1,7 @@
+@theme "catppuccin-mocha"
 configuration {
   /*
     "emoji:rofimoji --max-recent=0 -a=copy",
-
   */
   modes: [drun,ssh,"wallpapers:switchwallpaper","power:rofi-power-menu","WireGuard:~/.config/rofi/wireguard-rofi.sh"];
   show-icons: true;
@@ -10,6 +10,17 @@ configuration {
 	ssh-client: "kitten ssh";
 	/*ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";*/
 	ssh-command: "echo {ssh-client} {host} [-p {port}] >> ~/.log";
+
+  icon-theme: "Oranchelo";
+  durn-display-format: "{icon} {name}";
+  location: 0;
+  disable-history: false;
+  hide-scrollbar: true;
+  display-drun: "   Apps ";
+  display-run: "   Run ";
+  display-window: " 﩯  Window";
+  display-Network: " 󰤨  Network"; 
+  sidebar-mode: true;
 
   /*kb-select-1: "Alt+1";
   kb-select-2: "Alt+2";
@@ -152,4 +163,4 @@ configuration {
       sorting-method:    "name";
   }
 }
-@theme "glue_pro_blue"
+
