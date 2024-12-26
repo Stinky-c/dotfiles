@@ -60,7 +60,7 @@
             "class<.*prismlauncher.*>": " ",
             "class<firefox> title<.*YouTube — Mozilla Firefox.*>": " ",
             "class<kitty> title<cava>": " ",
-            "class<steam> title<Steam>": " ",
+            "class<steam>": " ",
             "class<.*Minecraft.*>": " ",
             "class<obsidian>":" "
         }

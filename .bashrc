@@ -42,14 +42,15 @@ alias s='kitten ssh'
 alias icat='kitten icat'
 alias lessit='$(history -p \!\!) | less'
 
-alias ua-drop-caches='sudo paccache -rk3; paru -Sc --aur --noconfirm'
-alias ua-update-all='export RATE_TEMP="$(mktemp)"; \
+alias ua-update-mirrors='export RATE_TEMP="$(mktemp)"; \
     sudo true; \
     rate-mirrors --save=$RATE_TEMP arch --max-delay=21600 \
       && sudo mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-backup \
-      && sudo mv $RATE_TEMP /etc/pacman.d/mirrorlist \
-      && ua-drop-caches \
-      && paru -Syyu --noconfirm'
+      && sudo mv $RATE_TEMP /etc/pacman.d/mirrorlist '
+alias ua-drop-caches='sudo paccache -rk3; paru -Sc --aur --noconfirm'
+alias ua-update-all='ua-update-mirrors && \ 
+      ua-drop-caches && \
+      paru -Syyu --noconfirm'
 
 # prompt stuff, TODO: replace with starship
 PS1='[\u@\h \W]\$ '
@@ -66,3 +67,5 @@ export SCRIPTS_DIR=$HOME/.config/scripts
 export EDITOR=vim
 # mise
 eval "$(/usr/bin/mise activate bash)"
+# nnn 
+export NNN_TRASH=1
