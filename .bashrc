@@ -1,35 +1,11 @@
-#
-# ~/.bashrc
-#
-
 # Add local/bin to path
 export PATH=$HOME/.local/bin:$HOME/.config/scripts:$PATH
 
 # If not running interactively, exit early
 [[ $- != *i* ]] && return
 
-# Tempdir and file
-
-export TMP_TEMPLATE='/tmp/tmp.shell.XXXXX'
-export TMP_FILE=$(mktemp $TEMPSUFFIX)
-export TMP_DIR=$(mktemp -d $TEMPSUFFIX)
-
-function _tmp_cleanup {
-  # Tempdir cleanup
-  if [ -e "$TMP_DIR" ] && [ -z "$(ls -A $TMP_DIR)" ]; then
-    # Cleanup if empty/
-    rmdir "$TMP_DIR"
-
-  fi
-  if [ -e "$TMP_FILE" ] && [ -s "$TMP_FILE" ]; then
-    rm "$TMP_FILE"
-  fi
-}
-
-# trap _tmp_cleanup EXIT
-
 # Misc env vars
-export EDITOR='vim'
+export EDITOR='nvim'
 
 # Add color to common commands
 alias ip='ip -c'
@@ -38,8 +14,6 @@ alias grep='grep --color=auto'
 alias cat='bat -pp'
 
 # add some aliases
-alias s='kitten ssh'
-alias icat='kitten icat'
 alias lessit='$(history -p \!\!) | less'
 
 alias ua-update-mirrors='export RATE_TEMP="$(mktemp)"; \
@@ -63,9 +37,19 @@ MOZ_ENABLE_WAYLAND=1
 # Hyprland scripts dir
 export SCRIPTS_DIR=$HOME/.config/scripts
 
-# Dev tools
-export EDITOR=vim
 # mise
-eval "$(/usr/bin/mise activate bash)"
-# nnn 
+eval "$(~/.local/bin/mise activate bash)" && eval "$(mise hook-env)"
+
+# nnn
 export NNN_TRASH=1
+
+if command -v "fastfetch" &>/dev/null; then
+  fastfetch
+else
+  $SCRIPTS_DIR/pfetch
+fi
+
+# UWSM start
+if uwsm check may-start; then
+  exec uwsm start default
+fi
