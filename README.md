@@ -12,6 +12,7 @@ Names are packages found on arch/aur repos
 - [ghostty](https://ghostty.org/) - Terminal
 - [starship](https://starship.rs/) - Terminal prompt thingy
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - neofetch but not eol
+- [blesh-git](https://github.com/akinomyoga/ble.sh) - used for transient prompts in bash. Currently not working
 
 - [hyprland](https://hypr.land/) - Window manager
 - hypridle - Idle management daemon

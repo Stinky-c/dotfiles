@@ -1,6 +1,9 @@
 # Add local/bin to path
 export PATH=$HOME/.local/bin:$HOME/.config/scripts:$PATH
 
+# ble.sh - buggy and cant disable most settings
+# [[ $- == *i* ]] && source -- /usr/share/blesh/ble.sh --attach=none
+
 # If not running interactively, exit early
 [[ $- != *i* ]] && return
 
@@ -29,9 +32,10 @@ alias ua-update-all='ua-update-mirrors && \
       ua-drop-caches && \
       paru -Syyu --noconfirm'
 
-# prompt stuff, TODO: replace with starship
 # hello starship!
 eval "$(starship init bash)"
+
+# Prompt fallback
 PS1='[\u@\h \W]\$ '
 color_prompt=yes
 force_color_prompt=yes
@@ -48,6 +52,8 @@ export NNN_TRASH=1
 
 # epic hacker man
 fastfetch
+
+# [[ ! ${BLE_VERSION-} ]] || ble-attach
 
 # UWSM start
 if uwsm check may-start; then
