@@ -4,6 +4,9 @@ export PATH=$HOME/.local/bin:$HOME/.config/scripts:$PATH
 # If not running interactively, exit early
 [[ $- != *i* ]] && return
 
+# Use wayland for apps
+export MOZ_ENABLE_WAYLAND=1
+
 # Misc env vars
 export EDITOR='nvim'
 
@@ -27,12 +30,12 @@ alias ua-update-all='ua-update-mirrors && \
       paru -Syyu --noconfirm'
 
 # prompt stuff, TODO: replace with starship
+# hello starship!
+eval "$(starship init bash)"
 PS1='[\u@\h \W]\$ '
 color_prompt=yes
 force_color_prompt=yes
 
-# Use wayland for apps
-MOZ_ENABLE_WAYLAND=1
 
 # Hyprland scripts dir
 export SCRIPTS_DIR=$HOME/.config/scripts
@@ -43,11 +46,8 @@ eval "$(~/.local/bin/mise activate bash)" && eval "$(mise hook-env)"
 # nnn
 export NNN_TRASH=1
 
-if command -v "fastfetch" &>/dev/null; then
-  fastfetch
-else
-  $SCRIPTS_DIR/pfetch
-fi
+# epic hacker man
+fastfetch
 
 # UWSM start
 if uwsm check may-start; then
