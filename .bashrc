@@ -41,7 +41,7 @@ color_prompt=yes
 force_color_prompt=yes
 
 
-# Hyprland scripts dir
+# scripts dir
 export SCRIPTS_DIR=$HOME/.config/scripts
 
 # mise
@@ -56,6 +56,8 @@ fastfetch
 # [[ ! ${BLE_VERSION-} ]] || ble-attach
 
 # UWSM start
-if uwsm check may-start; then
-  exec uwsm start default
-fi
+# if uwsm check may-start; then
+#  exec uwsm start default
+# fi
+
+# alias getlog='cat /run/user/1000/hypr/967c3c7404d4fa00234e29c70df3e263386d2597_1764725057_791918864/hyprland.log'

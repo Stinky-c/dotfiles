@@ -1,6 +1,6 @@
 @theme "github-dark-dimmed"
 configuration {
-  modes: [drun,ssh,"wallpapers:~/.config/scripts/switchwallpaper","power:rofi-power-menu"];
+  modes: [drun, ssh, "wallpapers:~/.config/scripts/switchwallpaper", "power:rofi-power-menu"];
   show-icons: true;
   terminal: "ghostty";
 
@@ -23,7 +23,8 @@ configuration {
 
   cache-dir: "~/.cache/rofi/";
 
-	run-command: "uwsm app -- {cmd}";
+  //run-command: "systemd-run --user -- {cmd}";
+  run-command: "uwsm app -- {cmd}";
 
   pid: "/run/user/1000/rofi.pid";
   replace: true;
