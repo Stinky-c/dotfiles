@@ -1,2 +1,3 @@
 **/hypr.d/*.conf-bak
 .vscode/
+**/__pycache__/

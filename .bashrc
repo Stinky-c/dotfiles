@@ -33,7 +33,7 @@ alias ua-update-all='ua-update-mirrors && \
       paru -Syyu --noconfirm'
 
 # hello starship!
-eval "$(starship init bash)"
+[[ $- == *i* ]] &&  eval "$(starship init bash)"
 
 # Prompt fallback
 PS1='[\u@\h \W]\$ '
@@ -41,7 +41,7 @@ color_prompt=yes
 force_color_prompt=yes
 
 
-# scripts dir
+# Scripts dir
 export SCRIPTS_DIR=$HOME/.config/scripts
 
 # mise
@@ -51,13 +51,6 @@ eval "$(~/.local/bin/mise activate bash)" && eval "$(mise hook-env)"
 export NNN_TRASH=1
 
 # epic hacker man
-fastfetch
+[[ $- == *i* ]] && fastfetch
 
 # [[ ! ${BLE_VERSION-} ]] || ble-attach
-
-# UWSM start
-# if uwsm check may-start; then
-#  exec uwsm start default
-# fi
-
-# alias getlog='cat /run/user/1000/hypr/967c3c7404d4fa00234e29c70df3e263386d2597_1764725057_791918864/hyprland.log'

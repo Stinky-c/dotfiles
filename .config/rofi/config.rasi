@@ -23,8 +23,7 @@ configuration {
 
   cache-dir: "~/.cache/rofi/";
 
-  //run-command: "systemd-run --user -- {cmd}";
-  run-command: "uwsm app -- {cmd}";
+  run-command: "systemd-run --user -- {cmd}";
 
   pid: "/run/user/1000/rofi.pid";
   replace: true;
