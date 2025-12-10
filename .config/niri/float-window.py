@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 """
 Like open-float, but dynamically. Floats a window when it matches the rules.
 
@@ -6,21 +5,42 @@ Some windows don't have the right title and app-id when they open, and only set
 them afterward. This script is like open-float for those windows.
 
 Usage: fill in the RULES array below, then run the script.
+https://github.com/YaLTeR/niri/discussions/1599#discussioncomment-14120219
 """
 
 from dataclasses import dataclass, field
 import json
+import logging
 import os
+from pathlib import Path
 import re
 from socket import AF_UNIX, SHUT_WR, socket
+import sys
+from time import sleep
+
+
+log_path = Path(__file__).resolve().with_name("ff_ext_floating.log")
+
+# Logger configuration
+logging.basicConfig(
+    filename=log_path,
+    encoding="utf-8",
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
 
 @dataclass(kw_only=True)
 class Match:
-    title: str | None = None
-    app_id: str | None = None
+    """Class for defining window match conditions by title and/or app_id"""
+
+    title: str | None = None  # Regular expression for the window title
+    app_id: str | None = None  # Regular expression for the window app_id
 
     def matches(self, window):
+        """Check whether the window matches the conditions"""
         if self.title is None and self.app_id is None:
             return False
 
@@ -36,10 +56,15 @@ class Match:
 
 @dataclass
 class Rule:
-    match: list[Match] = field(default_factory=list)
-    exclude: list[Match] = field(default_factory=list)
+    """Class describing a rule consisting of a list of Match conditions and exclusions"""
+
+    match: list[Match] = field(default_factory=list)  # Conditions the window must meet
+    exclude: list[Match] = field(
+        default_factory=list
+    )  # Conditions under which the window should be excluded
 
     def matches(self, window):
+        """Check whether the window matches the rule"""
         if len(self.match) > 0 and not any(m.matches(window) for m in self.match):
             return False
         if any(m.matches(window) for m in self.exclude):
@@ -48,45 +73,15 @@ class Rule:
         return True
 
 
-# Write your rules here. One Rule() = one window-rule {}.
 RULES = [
-    # window-rule {} with one match.
     Rule([Match(title=r"^Extension: .*Bitwarden.*$", app_id="firefox")]),
-    Rule([Match(title="Friends List", app_id="steam")])
-
-    # window-rule {} with one match and one exclude.
-    # Rule(
-    #     [Match(title="rs")],
-    #     exclude=[Match(app_id="Alacritty")],
-    # ),
-
-    # window-rule {} with two matches.
-    # Rule(
-    #     [
-    #         Match(app_id="^foot$"),
-    #         Match(app_id="^mpv$"),
-    #     ]
-    # ),
+    Rule([Match(title=r"^Extension: .*\(Tree Style Tab\).*$", app_id="firefox")]),
+    Rule([Match(title="Friends List", app_id="steam")]),
 ]
 
 
-if len(RULES) == 0:
-    print("fill in the RULES list, then run the script")
-    exit()
-
-
-niri_socket = socket(AF_UNIX)
-niri_socket.connect(os.environ["NIRI_SOCKET"])
-file = niri_socket.makefile("rw")
-
-_ = file.write('"EventStream"')
-file.flush()
-niri_socket.shutdown(SHUT_WR)
-
-windows = {}
-
-
 def send(request):
+    """Send a request to the Niri socket"""
     with socket(AF_UNIX) as niri_socket:
         niri_socket.connect(os.environ["NIRI_SOCKET"])
         file = niri_socket.makefile("rw")
@@ -95,31 +90,80 @@ def send(request):
 
 
 def float(id: int):
+    """Switch the window to floating mode and set its position"""
     send({"Action": {"MoveWindowToFloating": {"id": id}}})
+    send(
+        {
+            "Action": {
+                "MoveFloatingWindow": {
+                    "id": id,
+                    "x": {"SetFixed": 1250.0},
+                    "y": {"SetFixed": 150.0},
+                }
+            }
+        }
+    )
 
 
-def update_matched(win):
+def update_matched(windows, win):
+    """Check if the window matches any rules and perform the action"""
     win["matched"] = False
     if existing := windows.get(win["id"]):
         win["matched"] = existing["matched"]
 
     matched_before = win["matched"]
     win["matched"] = any(r.matches(win) for r in RULES)
+
+    # If the window was not previously matched but now matches — apply the action
     if win["matched"] and not matched_before:
-        print(f"floating title={win['title']}, app_id={win['app_id']}")
+        logger.info(
+            f"Window matched: title='{win['title']}', app_id='{win['app_id']}' ->> floating"
+        )
         float(win["id"])
 
 
-for line in file:
-    event = json.loads(line)
+def main():
+    logger.info("script has been launched")
+    # Check if there are any rules at all
+    if len(RULES) == 0:
+        logger.warning("fill in the RULES list, then run the script")
+        sys.exit(0)
 
-    if changed := event.get("WindowsChanged"):
-        for win in changed["windows"]:
-            update_matched(win)
-        windows = {win["id"]: win for win in changed["windows"]}
-    elif changed := event.get("WindowOpenedOrChanged"):
-        win = changed["window"]
-        update_matched(win)
-        windows[win["id"]] = win
-    elif changed := event.get("WindowClosed"):
-        del windows[changed["id"]]
+    # Connect to the socket and open the event stream
+    niri_socket = socket(AF_UNIX)
+    niri_socket.connect(os.environ["NIRI_SOCKET"])
+    file = niri_socket.makefile("rw")
+
+    _ = file.write('"EventStream"')  # Subscribe to events
+    file.flush()
+    niri_socket.shutdown(SHUT_WR)  # Close writing
+
+    # Store information about current windows
+    windows = {}
+
+    # Process incoming events from the window manager
+    for line in file:
+        event = json.loads(line)
+
+        if changed := event.get("WindowsChanged"):
+            for win in changed["windows"]:
+                update_matched(windows, win)
+            windows = {win["id"]: win for win in changed["windows"]}
+        elif changed := event.get("WindowOpenedOrChanged"):
+            win = changed["window"]
+            update_matched(windows, win)
+            windows[win["id"]] = win
+        elif changed := event.get("WindowClosed"):
+            del windows[changed["id"]]
+
+
+if __name__ == "__main__":
+    while True:
+        try:
+            main()
+        except KeyboardInterrupt:
+            logger.info("stopped by CTRL+C")
+            break
+        except Exception as err:
+            logger.error(f"an error occurred: {err}, restarting...")
+            sleep(5.0)

@@ -81,10 +81,10 @@ tooltip label {
   color: @content_main;
 }
 
-#taskbar {
+.niri-taskbar {
 }
 
-#taskbar button {
+.niri-taskbar button {
   border-bottom: 3px solid rgba(255, 255, 255, 0.3);
   margin-left: 2px;
   margin-right: 2px;
@@ -94,12 +94,12 @@ tooltip label {
   transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-#taskbar button.active {
+.niri-taskbar button.active {
   border-bottom: 3px solid white;
   background: @bg_active;
 }
 
-#taskbar button:hover {
+.niri-taskbar button:hover {
   border-bottom: 3px solid white;
   background: @bg_hover;
   color: @content_main;
