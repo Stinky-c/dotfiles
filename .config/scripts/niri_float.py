@@ -28,6 +28,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
+    filemode="w"
 )
 logger = logging.getLogger(__name__)
 
@@ -165,5 +166,5 @@ if __name__ == "__main__":
             logger.info("stopped by CTRL+C")
             break
         except Exception as err:
-            logger.error(f"an error occurred: {err}, restarting...")
+            logger.exception(f"an error occurred: {err}, restarting...")
             sleep(5.0)

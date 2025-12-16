@@ -9,6 +9,10 @@ include "startup.kdl"
 // https://yalter.github.io/niri/Configuration:-Input
 include "input.kdl"
 
+// Named workspaces
+workspace "primary"
+workspace "discord"
+
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
@@ -97,8 +101,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // https://github.com/heyoeyo/niri_tweaks
-    Mod+Backslash repeat=false { spawn "~/.config/scripts/niri_window_details.sh"; }
-    Mod+P { spawn "~/.config/scripts/niri_peekaboo.py"; }
+    Mod+Backslash  hotkey-overlay-title="Show current window details" repeat=false { spawn "~/.config/scripts/niri_window_details.sh"; }
+    Mod+P hotkey-overlay-title="Popover window" { spawn "~/.config/scripts/niri_peekaboo.py"; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
@@ -111,7 +115,7 @@ binds {
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
     // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -256,7 +260,12 @@ binds {
     //
     // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
     // will all refer to the 3rd workspace.
-    Mod+1 { focus-workspace 1; }
+
+
+    // Focus workspace
+    Mod+D { focus-workspace "discord"; }
+
+    Mod+1 { focus-workspace "primary"; }
     Mod+2 { focus-workspace 2; }
     Mod+3 { focus-workspace 3; }
     Mod+4 { focus-workspace 4; }
@@ -265,7 +274,11 @@ binds {
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }
     Mod+9 { focus-workspace 9; }
-    Mod+Ctrl+1 { move-window-to-workspace 1; }
+
+    // Move window to workspace
+    Mod+Shift+D { move-window-to-workspace "discord"; }
+
+    Mod+Ctrl+1 { move-window-to-workspace "primary"; }
     Mod+Ctrl+2 { move-window-to-workspace 2; }
     Mod+Ctrl+3 { move-window-to-workspace 3; }
     Mod+Ctrl+4 { move-window-to-workspace 4; }
@@ -274,9 +287,6 @@ binds {
     Mod+Ctrl+7 { move-window-to-workspace 7; }
     Mod+Ctrl+8 { move-window-to-workspace 8; }
     Mod+Ctrl+9 { move-window-to-workspace 9; }
-
-    // Alternatively, there are commands to move just a single window:
-    // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
     // Switches focus between the current and the previous workspace.
     Mod+Tab { focus-workspace-previous; }
@@ -325,7 +335,7 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     Mod+X       { toggle-window-floating; }
-    // Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+Shift+X { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
@@ -363,7 +373,7 @@ binds {
 
     // https://github.com/Treeniks/chameleos
     // An overlay that allows drawing on it
-    Mod+F1 { spawn "chamel" "toggle"; }
-    Mod+F2 { spawn "chamel" "undo"; }
-    Mod+F3 { spawn "chamel" "clear"; }
+    Mod+F1 hotkey-overlay-title="Chamel: Focus layer" { spawn "chamel" "toggle"; }
+    Mod+F2 hotkey-overlay-title="Chamel: Undo" { spawn "chamel" "undo"; }
+    Mod+F3 hotkey-overlay-title="Chame: Clear" { spawn "chamel" "clear"; }
 }

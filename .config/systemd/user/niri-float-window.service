@@ -4,5 +4,5 @@ After=graphical-session.target
 Requisite=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/python %h/.config/niri/float-window.py
+ExecStart=/usr/bin/python %h/.config/scripts/niri_float.py
 Restart=on-failure

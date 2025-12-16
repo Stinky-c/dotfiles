@@ -1,4 +1,2 @@
 spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
 spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
-// spawn-at-startup "~/.config/niri/float-window.py"
-// spawn-at-startup "niri-float-sticky"

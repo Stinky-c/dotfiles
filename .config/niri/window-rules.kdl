@@ -31,3 +31,15 @@ window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
+
+window-rule {
+    // Start vesktop on discord
+    match at-startup=true app-id=r#"^vesktop$"#
+    open-on-workspace "discord"
+}
+
+window-rule {
+    // Start firefox on primary
+    match at-startup=true app-id=r#"^firefox$"#
+    open-on-workspace "primary"
+}
