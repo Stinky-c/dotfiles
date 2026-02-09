@@ -1,13 +1,12 @@
 [Unit]
 Description=Thunar Daemon
+PartOf=graphical-session.target
 After=graphical-session.target
+Requisite=graphical-session.target
+
 
 [Service]
 Type=exec
-ExecCondition=/lib/systemd/systemd-xdg-autostart-condition "Hyprland" ""
 ExecStart=thunar --daemon
 Restart=on-failure
 Slice=background-graphical.slice
-
-[Install]
-WantedBy=graphical-session.target

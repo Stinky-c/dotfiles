@@ -21,7 +21,7 @@
         "clock"
     ],
     "custom/os_button": {
-        "format": "X",
+        "format": "\udb82\udcc7",
         "on-click": "rofi -show drun",
         "tooltip": false
     },

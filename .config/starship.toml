@@ -99,6 +99,10 @@ detect_folders = [".mise", "mise-tasks"]
 healthy_symbol = ""
 unhealthy_symbol = ""
 
+[env_var.MISE_ENV]
+variable = "MISE_ENV"
+format = "\\[[$env_value]($style)\\]"
+
 
 [character]
 error_symbol = "[\\$](bold red)"

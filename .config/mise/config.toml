@@ -1,0 +1,26 @@
+[tools]
+usage = "latest"
+cargo-binstall = '1.16'
+
+pnpm = "10.22"
+node = "25"
+
+uv = "0.9"
+ruff = "0.14"
+'github:astral-sh/ty' = "latest"
+
+act = "latest"
+rust = { version = "latest", profile = "default", components = "rust-src" }
+"cargo:cargo-expand" = "latest"
+
+[settings]
+experimental = true
+idiomatic_version_file_enable_tools = ["python"]
+
+[settings.python]
+uv_venv_auto = true
+
+[settings.npm]
+package_manager = "pnpm"
+
+

@@ -54,3 +54,6 @@ export NNN_TRASH=1
 [[ $- == *i* ]] && fastfetch
 
 # [[ ! ${BLE_VERSION-} ]] || ble-attach
+
+# Use batman for man paging
+eval "$(batman --export-env)"

@@ -27,8 +27,10 @@ Names are packages found on arch/aur repos
 
 ## Tools
 
-- [Mise](https://mise.jdx.dev/) - Used for most every project, is like pyenv or asdf
-- [LazyVim](https://www.lazyvim.org/) - Terminal editor, although I more often use vim
+- [Mise](https://mise.jdx.dev/) - Used for most every project, is like pyenv or asdf but includes some extras like env management.
+- [LazyVim](https://www.lazyvim.org/) - Terminal editor, although I more often use vim for a terminal editor.
+- [bat](https://github.com/sharkdp/bat?tab=readme-ov-file) - My chosen tool of paging. Can add color to manpages.
+    - [bat-extras](https://github.com/eth-p/bat-extras) - A couple extra tools using bat, notably Batman.
 
 ## Fonts
 
@@ -50,6 +52,10 @@ I use Monaspace for ide/devlopment and Jetbrains mono for terminals.
 
 Scripts are pulled from many places.
 
-- [`niri_tweaks`](https://github.com/heyoeyo/niri_tweaks?tab=readme-ov-file#niri_peekaboopy)
+- [`niri_tweaks`](https://github.com/heyoeyo/niri_tweaks)
     - [`.config/scripts/niri_window_details.sh`](.config/scripts/niri_window_details.sh)
     - [`.config/scripts/niri_peekaboo.py`](.config/scripts/niri_peekaboo.py)
+
+## Systemd
+
+Services are listed in [`.config/systemd/user`](.config/systemd/user). Enable them to boot with niri using `systemctl --user add-wants niri.service \<name>`. List all services using `find .config/systemd/user/*.service -printf '%f\n'`
