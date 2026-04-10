@@ -12,15 +12,9 @@ Names are packages found on arch/aur repos
 - [ghostty](https://ghostty.org/) - Terminal
 - [starship](https://starship.rs/) - Terminal prompt thingy
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch) - neofetch but not eol
-- [blesh-git](https://github.com/akinomyoga/ble.sh) - used for transient prompts in bash. Currently not working
-- [waybar](https://github.com/Alexays/Waybar) - A task bar
-    - [waybar-niri-taskbar](https://github.com/LawnGnome/niri-taskbar)
-    - [ignis](https://github.com/ignis-sh/ignis) - Similar to AGS but in python. Might replace waybar
-
 - [Niri](https://github.com/YaLTeR/niri) - Scrolling-tiling Wayland compositor
-- [swaybg](https://github.com/swaywm/swaybg) - very simple background management
-- [swayidle](https://github.com/swaywm/swayidle) - idle management
-- [swaylock](https://github.com/swaywm/swaylock) - screen locking
+
+- [Noctalia](https://noctalia.dev/) - Shell for niri. Adds most things I use. Also has color management.
 
 - [rofi](https://github.com/davatorium/rofi) - application picker and various other tasks (now supports wayland)
 - [rofi-power-menu](https://github.com/jluttine/rofi-power-menu) - computer off
